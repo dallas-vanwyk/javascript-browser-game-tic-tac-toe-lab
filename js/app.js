@@ -1,13 +1,13 @@
 /*--------------------------- Minimum Requirements ------------------------------*/
 
 // // Display an empty tic-tac-toe board when the page is initially displayed.
-// A player can click on the nine cells to make a move.
-// Every click will alternate between marking an X and O.
+// // A player can click on the nine cells to make a move.
+// // Every click will alternate between marking an X and O.
 // Display whose turn it is (X or O).
-// The cell cannot be played again once occupied with an X or O.
+// // The cell cannot be played again once occupied with an X or O.
 // Provide win logic and display a winning message.
 // Provide logic for a cat’s game (tie), also displaying a message.
-// Provide a Reset Game button that will clear the contents of the board.
+// // Provide a Reset Game button that will clear the contents of the board.
 
 
 
@@ -112,6 +112,7 @@ const resetGame = () => {
         square.innerText = "";
     })
     gameState = 0;
+    console.log(`game is ${gameStates[gameState]}`)
     turn = 'x';
     message.innerText = "New game, x's turn";
 }
@@ -126,22 +127,32 @@ const nextTurn = () => {
     }
     console.log(`it is now ${turn}'s turn`);
     message.innerText = `${turn}'s turn`
-    // emptyCounter();
-    console.log(emptyCount);
+    emptyCounter();
+    console.log(`${emptyCount} empty squares remain`);
+
+    // check for completed game
+    if (emptyCount === 0) {
+        catsGame();
+    }
+}
+
+// there are better ways of doing this, but this works
+const emptyCounter = () => {
+    emptyCount = 0;
+    for (let i=0; i<9; i++) {
+        if (squares[i].textContent === "") {
+            emptyCount++;
+        }
+    }
+}
+// improvement: make this with reduce() or forEach() or some other array method
+
+const catsGame = () => {
+    gamestate = 2;
+    console.log(`game is ${gameStates[gameState]}`)
+    message.innerText = `Cats game, tied! Better luck next time.`;
 }
 
 
-// there are plenty of ways to determine a cats game, but this is one of them
-// let emptyCount = squares.reduce(function(acc, square){
-//     if (acc[square].innerText === "") {
-//         acc++;
-//     }
-//     return acc;
-// }, 0);
 
-// not currently working; line 129 commented out temporarily
-const emptyCounter = squares.forEach((square) => {
-    if (square.innerText === "") {
-        emptyCount++;
-    }
-})
+
