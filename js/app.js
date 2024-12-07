@@ -1,6 +1,6 @@
 /*--------------------------- Minimum Requirements ------------------------------*/
 
-// Display an empty tic-tac-toe board when the page is initially displayed.
+// // Display an empty tic-tac-toe board when the page is initially displayed.
 // A player can click on the nine cells to make a move.
 // Every click will alternate between marking an X and O.
 // Display whose turn it is (X or O).
@@ -42,13 +42,6 @@
 
 /*-------------------------------- Constants --------------------------------*/
 
-// creating play field as a 2-dimensional array... MBCU
-// const playField = new Array(3);
-// for (let y = 0; y<3; y++) {
-//     playField[y] = new Array(3);
-// }
-// console.log(playField);
-
 const gameStates = [
     'reset',
     'in play',
@@ -61,6 +54,8 @@ const gameStates = [
 
 /*---------------------------- Variables (state) ----------------------------*/
 
+
+
 // turn variable will be either x or y
 let turn = "";
 turn = 'x'; // temporary testing
@@ -68,10 +63,14 @@ turn = 'x'; // temporary testing
 // making gameState an integer is unnecessary although easier to work with IMO
 let gameState = 0;
 
-
+let emptyCount = 0;
 
 
 /*------------------------ Cached Element References ------------------------*/
+
+const message = document.querySelector('#message');
+
+const resetButton = document.querySelector('#reset');
 
 // creates an array of all 9 squares
 const squares = document.querySelectorAll('.sqr');
@@ -80,11 +79,6 @@ const squares = document.querySelectorAll('.sqr');
 // console.log(squares[0].id);
 // each square's index is the same as its ID
 
-
-
-
-const resetButton = document.querySelector('#reset');
-// console.dir(resetButton);
 
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -101,7 +95,7 @@ squares.forEach((square) => {
 })
 
 resetButton.addEventListener('click', (event) => {
-    resetField();
+    resetGame();
 });
 
 
@@ -113,10 +107,13 @@ const placeMarker = (index, marker) => {
 }
 // placeMarker(1, 'x');
 
-const resetField = () => {
+const resetGame = () => {
     squares.forEach((square) => {
         square.innerText = "";
     })
+    gameState = 0;
+    turn = 'x';
+    message.innerText = "New game, x's turn";
 }
 
 const nextTurn = () => {
@@ -128,6 +125,23 @@ const nextTurn = () => {
         console.log('whose turn is it anyway?');
     }
     console.log(`it is now ${turn}'s turn`);
+    message.innerText = `${turn}'s turn`
+    // emptyCounter();
+    console.log(emptyCount);
 }
 
 
+// there are plenty of ways to determine a cats game, but this is one of them
+// let emptyCount = squares.reduce(function(acc, square){
+//     if (acc[square].innerText === "") {
+//         acc++;
+//     }
+//     return acc;
+// }, 0);
+
+// not currently working; line 129 commented out temporarily
+const emptyCounter = squares.forEach((square) => {
+    if (square.innerText === "") {
+        emptyCount++;
+    }
+})
