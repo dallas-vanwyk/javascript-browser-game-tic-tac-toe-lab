@@ -48,7 +48,31 @@ const gameStates = [
     'completed'
 ];
 
+// for win case
+// if either X or O has three-in-a-row
+// 8 ways to make it:
+// horizontal:
+//      row 1, spaces 0, 1, 2
+//      row 2, spaces 3, 4, 5
+//      row 3, spaces 6, 7, 8
+// vertical:
+//      column a, spaces 0, 3, 6
+//      column b, spaces 1, 4, 7
+//      column c, spaces 2, 5, 8
+// diagonal:
+//      \, spaces 0, 4, 8
+//      /, spaces 2, 4, 6
 
+const winConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+]
 
 
 
@@ -87,7 +111,7 @@ const squares = document.querySelectorAll('.sqr');
 squares.forEach((square) => {
     square.addEventListener('click', (event) => {
         // console.log(event.target.id);
-        if (event.target.innerText === "") {
+        if (event.target.innerText === "" && gameState !== 3) {
             placeMarker(event.target.id, turn);
             nextTurn();
         }
@@ -115,6 +139,7 @@ const resetGame = () => {
     console.log(`game is ${gameStates[gameState]}`)
     turn = 'x';
     message.innerText = "New game, x's turn";
+
 }
 
 const nextTurn = () => {
@@ -129,6 +154,9 @@ const nextTurn = () => {
     message.innerText = `${turn}'s turn`
     emptyCounter();
     console.log(`${emptyCount} empty squares remain`);
+    
+    // check for win condition
+    winCheck();
 
     // check for completed game
     if (emptyCount === 0) {
@@ -139,7 +167,7 @@ const nextTurn = () => {
 // there are better ways of doing this, but this works
 const emptyCounter = () => {
     emptyCount = 0;
-    for (let i=0; i<9; i++) {
+    for (let i = 0; i < 9; i++) {
         if (squares[i].textContent === "") {
             emptyCount++;
         }
@@ -147,8 +175,10 @@ const emptyCounter = () => {
 }
 // improvement: make this with reduce() or forEach() or some other array method
 
+
+
 const catsGame = () => {
-    gamestate = 2;
+    gameState = 2;
     console.log(`game is ${gameStates[gameState]}`)
     message.innerText = `Cats game, tied! Better luck next time.`;
 }
@@ -156,3 +186,23 @@ const catsGame = () => {
 
 
 
+/*-------------------------------- Win Conditions --------------------------------*/
+
+// squares.forEach((square) => {
+//     square.innerText = square.id;
+// })
+
+
+
+
+
+const winCheck = () => {
+    winConditions.forEach((set) => {
+        if (squares[set[0]].innerText === squares[set[1]].innerText && squares[set[0]].innerText === squares[set[2]].innerText && squares[set[0]].innerText !== "") {
+            gameState = 2;
+            console.log(`${squares[set[0]].innerText} has won; game is ${gameStates[gameState]}`);
+
+            message.innerText = `${squares[set[0]].innerText} has won`
+        }
+    })
+}
