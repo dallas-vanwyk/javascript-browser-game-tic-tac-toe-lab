@@ -85,9 +85,8 @@ const winConditions = [
 
 
 
-// turn variable will be either x or y
-let turn = "";
-turn = 'x'; // temporary testing
+// turn variable will be either X or y
+let turn = "X";
 
 // making gameState an integer is unnecessary although easier to work with IMO
 let gameState = 0; // reset
@@ -97,7 +96,7 @@ let emptyCount = 0;
 
 /*------------------------ Cached Element References ------------------------*/
 
-const message = document.querySelector('#message');
+const messageEl = document.querySelector('#message');
 
 const resetButton = document.querySelector('#reset');
 
@@ -134,7 +133,7 @@ resetButton.addEventListener('click', (event) => {
 const placeMarker = (index, marker) => {
     squares[index].innerText = marker;
 }
-// placeMarker(1, 'x');
+// placeMarker(1, 'X');
 
 const resetGame = () => {
     squares.forEach((square) => {
@@ -142,20 +141,20 @@ const resetGame = () => {
     })
     gameState = 0;
     console.log(`game is ${gameStates[gameState]}`)
-    turn = 'x';
-    message.innerText = "New game, x's turn";
+    turn = 'X';
+    messageEl.innerText = "New game, X's turn";
 }
 
 const nextTurn = () => {
-    if (turn === 'x') {
-        turn = 'o';
-    } else if (turn === 'o') {
-        turn = 'x';
+    if (turn === 'X') {
+        turn = 'O';
+    } else if (turn === 'O') {
+        turn = 'X';
     } else {
         console.log('whose turn is it anyway?');
     }
     console.log(`it is now ${turn}'s turn`);
-    message.innerText = `${turn}'s turn`
+    messageEl.innerText = `${turn}'s turn`
     emptyCounter();
     console.log(`${emptyCount} empty squares remain`);
     
@@ -184,7 +183,7 @@ const emptyCounter = () => {
 const catsGame = () => {
     gameState = 2;
     console.log(`game is ${gameStates[gameState]}`)
-    message.innerText = `Cats game, tied! Better luck next time.`;
+    messageEl.innerText = `Cats game, tied! Better luck next time.`;
 }
 
 
@@ -200,7 +199,7 @@ const winCheck = () => {
         if (squares[set[0]].innerText === squares[set[1]].innerText && squares[set[0]].innerText === squares[set[2]].innerText && squares[set[0]].innerText !== "") {
             gameState = 2;
             console.log(`${squares[set[0]].innerText} has won; game is ${gameStates[gameState]}`);
-            message.innerText = `${squares[set[0]].innerText} has won`
+            messageEl.innerText = `${squares[set[0]].innerText} has won`
         }
     })
 }
