@@ -48,6 +48,11 @@ const gameStates = [
     'completed'
 ];
 
+// squares # identification
+// squares.forEach((square) => {
+//     square.innerText = square.id;
+// })
+
 // for win case
 // if either X or O has three-in-a-row
 // 8 ways to make it:
@@ -85,7 +90,7 @@ let turn = "";
 turn = 'x'; // temporary testing
 
 // making gameState an integer is unnecessary although easier to work with IMO
-let gameState = 0;
+let gameState = 0; // reset
 
 let emptyCount = 0;
 
@@ -111,7 +116,7 @@ const squares = document.querySelectorAll('.sqr');
 squares.forEach((square) => {
     square.addEventListener('click', (event) => {
         // console.log(event.target.id);
-        if (event.target.innerText === "" && gameState !== 3) {
+        if (event.target.innerText === "" && gameState !== 2) {
             placeMarker(event.target.id, turn);
             nextTurn();
         }
@@ -139,7 +144,6 @@ const resetGame = () => {
     console.log(`game is ${gameStates[gameState]}`)
     turn = 'x';
     message.innerText = "New game, x's turn";
-
 }
 
 const nextTurn = () => {
@@ -188,11 +192,6 @@ const catsGame = () => {
 
 /*-------------------------------- Win Conditions --------------------------------*/
 
-// squares.forEach((square) => {
-//     square.innerText = square.id;
-// })
-
-
 
 
 
@@ -201,7 +200,6 @@ const winCheck = () => {
         if (squares[set[0]].innerText === squares[set[1]].innerText && squares[set[0]].innerText === squares[set[2]].innerText && squares[set[0]].innerText !== "") {
             gameState = 2;
             console.log(`${squares[set[0]].innerText} has won; game is ${gameStates[gameState]}`);
-
             message.innerText = `${squares[set[0]].innerText} has won`
         }
     })
